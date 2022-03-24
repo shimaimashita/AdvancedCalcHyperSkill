@@ -2,27 +2,27 @@ package calculator.util;
 
 import calculator.exc.MyException;
 
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Stack;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringHandler implements StringHandlerInterface {
 
-    private Map<String, Integer> mp;
+    private Map<String, BigInteger> mp;
 
     public StringHandler() {
         this.mp = null;
     }
 
-    public StringHandler(Map<String, Integer> mp) {
+    public StringHandler(Map<String, BigInteger> mp) {
         this.mp = mp;
     }
 
     @Override
-    public int getCalculationResult(String inputString) throws MyException {
+    public BigInteger getCalculationResult(String inputString) throws MyException {
         if (checkParentheses(inputString)) {
             return getPostFixCalculation(toPostFixView(cleanString(putVariable(inputString))));
         } else {
@@ -32,7 +32,7 @@ public class StringHandler implements StringHandlerInterface {
 
 
 
-    public void setMap(Map<String, Integer> mp) {
+    public void setMap(Map<String, BigInteger> mp) {
         this.mp = mp;
     }
 
@@ -63,7 +63,7 @@ public class StringHandler implements StringHandlerInterface {
         Matcher matcher = pattern.matcher(inputString);
 
         while (matcher.find()) {
-            Integer result = mp.get(matcher.group(1));
+            BigInteger result = mp.get(matcher.group(1));
 
             if (result == null) {
                 throw new MyException("Unknown variable");
@@ -152,31 +152,31 @@ public class StringHandler implements StringHandlerInterface {
     }
 
     @Override
-    public int getPostFixCalculation(String inputString) {
-        LinkedList<Integer> stack = new LinkedList<>();
+    public BigInteger getPostFixCalculation(String inputString) {
+        LinkedList<BigInteger> stack = new LinkedList<>();
         String[] operands = inputString.split("\\s");
         for (int i = 0; i < operands.length; i++) {
             if (operands[i].matches("[0-9]+")) {
-                stack.push(Integer.parseInt(operands[i]));
+                stack.push(new BigInteger(operands[i]));
             } else {
-                int second = stack.pop();
-                int first = stack.pop();
+                BigInteger second = stack.pop();
+                BigInteger first = stack.pop();
                 switch (operands[i]) {
                     case "+":
-                        stack.push(first + second);
+                        stack.push(first.add(second));
                         break;
                     case "-":
                     case "–":
-                        stack.push(first - second);
+                        stack.push(first.add(second.negate()));
                         break;
                     case "*":
-                        stack.push(first * second);
+                        stack.push(first.multiply(second));
                         break;
                     case "/":
-                        stack.push(first / second);
+                        stack.push(first.divide(second));
                         break;
                     case "^":
-                        stack.push((int) Math.pow(first, second));
+                        stack.push(first.pow(Integer.parseInt(second.toString())));
                 }
             }
         }

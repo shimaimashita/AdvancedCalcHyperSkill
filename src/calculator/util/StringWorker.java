@@ -3,11 +3,12 @@ package calculator.util;
 import calculator.exc.MyException;
 import calculator.util.StringHandler;
 
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class StringWorker {
-    static final private Map<String, Integer> mp = new TreeMap<>();
+    static final private Map<String, BigInteger> mp = new TreeMap<>();
     public void stringHandling(String inputString) throws MyException {
         // Assigning:
         if (inputString.contains("=")) {
@@ -29,14 +30,14 @@ public class StringWorker {
             throw new MyException("Invalid identifier");
         }
         try {
-            int tempValue = CalculationHandling(rightPart);
-            Integer m = mp.put(leftPart, tempValue);
+            BigInteger tempValue = CalculationHandling(rightPart);
+            BigInteger m = mp.put(leftPart, tempValue);
         } catch (Exception e) {
             throw new MyException(e.getMessage(), e);
         }
     }
 
-    private int CalculationHandling(String inputString) throws MyException {
+    private BigInteger CalculationHandling(String inputString) throws MyException {
         StringHandler stringHandler = new StringHandler(mp);
 
         return stringHandler.getCalculationResult(inputString);

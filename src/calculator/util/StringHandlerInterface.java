@@ -2,7 +2,7 @@ package calculator.util;
 
 import calculator.exc.MyException;
 
-import java.util.TreeMap;
+import java.math.BigInteger;
 
 public interface StringHandlerInterface {
     /**
@@ -10,7 +10,7 @@ public interface StringHandlerInterface {
      * @param inputString a string of operators and operands
      * @return calculation result
      */
-    int getCalculationResult (String inputString) throws MyException;
+    BigInteger getCalculationResult (String inputString) throws MyException;
 
     /**
      * Removes unnecessary whitespaces and plus signs,
@@ -43,6 +43,6 @@ public interface StringHandlerInterface {
      * @param inputString
      * @return result of calculations
      */
-    int getPostFixCalculation(String inputString);
+    BigInteger getPostFixCalculation(String inputString);
 
 }
